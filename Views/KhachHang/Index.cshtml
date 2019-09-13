@@ -1,0 +1,140 @@
+﻿
+@model List<WebApplication1.Models.KHACH_HANG>
+@{
+    ViewData["Title"] = "List Khách hàng";
+}
+<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
+    <div class="row">
+        <ol class="breadcrumb">
+            <li>
+                <a href="#">
+                    <em class="fa fa-home"></em>
+                </a>
+            </li>
+            <li class="active">List khách hàng</li>
+        </ol>
+    </div><!--/.row-->
+
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">List khách hàng</h1>
+        </div>
+    </div><!--/.row-->
+
+
+    <div class="row">
+
+        <div class="col-lg-5 col-md-5 col-sm-5">
+            <button id="buttonThem" type="button" class="btn btn-default"> <a asp-action="Add" asp-controller="KhachHang">Thêm khách hàng</a></button>
+        </div>
+    </div>
+
+
+    <div class="panel panel-default">
+
+        <table class="tablencc" id="dataTable">
+            <thead>
+                <tr>
+
+                    <th>Mã khách hàng</th>
+                    <th>Tên khách hàng</th>
+                    <th>Địa chỉ</th>
+                    <th>Số điện thoại</th>
+                    <th>Tiền nợ</th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            @foreach (var tmp in Model)
+            {
+                <tr>
+                    <td>@tmp.MaKH</td>
+                    <td>@tmp.TenKH</td>
+                    <td>@tmp.DiaChi</td>
+                    <td>@tmp.SDT</td>
+                    <td>@tmp.TienNo</td>
+
+
+                    <td>
+                        <a class="btn btn-sm btn-info" asp-controller="KhachHang" asp-action="Edit" asp-route-id="@tmp.MaKH"><span class="glyphicon glyphicon-pencil"></span>Edit</a>
+
+                        <a data-id="@tmp.MaKH" data-controller="KhachHang" data-action="Delete" data-bodymessage="Xóa khách hàng @tmp.TenKH ?" class="btn btn-danger btn-sm delete"><span class="glyphicon glyphicon-trash"></span>Delete</a>
+
+                    </td>
+
+                    <td><button class="glyphicon glyphicon-log-in"> <a asp-controller="HoaDonXuatt" asp-action="Add" asp-route-id="@tmp.MaKH">Thêm hóa đơn xuất</a></button></td>
+                    <td><button class="glyphicon glyphicon-log-in"> <a asp-controller="PhieuThuTien" asp-action="Add" asp-route-id="@tmp.MaKH">Thêm phiếu thu tiền</a></button></td>
+
+                </tr>
+            }
+            <tbody></tbody>
+        </table>
+        <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" datadismiss="modal" aria-label="Close">
+                            <span ariahidden="true">&times;</span>
+                        </button>
+                        <h4 class="modaltitle" id="myModalLabel">
+                            Warning
+                        </h4>
+                    </div>
+                    <div class="modal-body delete-modal-body">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btndefault" data-dismiss="modal" id="cancel-delete">
+                            Cancel
+                        </button>
+                        <button type="button" class="btn btndanger" id="confirm-delete">
+                            Delete
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+    <script>
+        $(document).ready(function () {
+            $('#dataTable').DataTable();
+        });
+    $(function () {
+        var url;
+        var redirectUrl;
+        var target;
+        $(".delete").on('click', (e) => {
+            e.preventDefault();
+        target = e.target;
+        var Id = $(target).data('id');
+        var controller = $(target).data('controller');
+        var action = $(target).data('action');
+        var bodyMessage = $(target).data('bodymessage');
+        redirectUrl = $(target).data('redirect-url');
+        url = "/" + controller + "/" + action + "?id=" + Id;
+
+        $(".delete-modal-body").text(bodyMessage);
+        $("#deleteModal").modal('show');
+        debugger
+    });
+        $("#confirm-delete").on('click', () => {
+            $.get(url)
+                .done((result) => {
+                    if (!redirectUrl) {
+                        return $(target).parent().parent().hide("slow");
+                    }
+                    window.location.href = redirectUrl;
+                }).fail((error) => {
+                    if (redirectUrl)
+                        window.location.href = redirectUrl;
+                }).always(() => {
+                    $("#deleteModal").modal('hide');
+                });
+        });
+    });
+
+</script>

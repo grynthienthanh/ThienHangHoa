@@ -1,0 +1,54 @@
+﻿@model WebApplication1.Models.BAO_CAO_TON
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Edit</h2>
+
+<h4>BAO_CAO_TON</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Thang" />
+            <div class="form-group">
+                <label asp-for="MaMH" class="control-label">Mã hàng hóa</label>
+                <select asp-for="MaMH" class="form-control" asp-items="ViewBag.MaMH"></select>
+                <span asp-validation-for="MaMH" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MANCC" class="control-label">Mã nhà cung cấp</label>
+                <select asp-for="MANCC" class="form-control" asp-items="ViewBag.MANCC"></select>
+                <span asp-validation-for="MANCC" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TonDau" class="control-label">Tồn đầu</label>
+                <input asp-for="TonDau" class="form-control" />
+                <span asp-validation-for="TonDau" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TonCuoi" class="control-label">Tồn cuối</label>
+                <input asp-for="TonCuoi" class="form-control" />
+                <span asp-validation-for="TonCuoi" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PhatSinh" class="control-label">Phát sinh</label>
+               
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

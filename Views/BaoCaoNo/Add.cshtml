@@ -1,0 +1,54 @@
+﻿@model WebApplication1.Models.BAO_CAO_CONG_NO
+
+@{
+    ViewData["Title"] = "Add";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var lstKhachHang = (IEnumerable<SelectListItem>)ViewData["MaKhachHang"];
+    string abc = "abibjbj";
+}
+
+<h2>Add</h2>
+
+<h4>Thêm báo cáo công nợ</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Add">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Thang" class="control-label">Tháng</label>
+                <input asp-for="Thang" class="form-control" />
+                <span asp-validation-for="Thang" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MaKH" class="control-label">Tên khách hàng</label>
+                @Html.DropDownListFor(n => n.MaKH, lstKhachHang)
+            </div>
+            <div class="form-group">
+                <label asp-for="NoDau" class="control-label">Nợ đầu</label>
+                <input asp-for="NoDau" class="form-control" />
+                <span asp-validation-for="NoDau" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NoCuoi" class="control-label">Nợ cuối</label>
+                <input asp-for="NoCuoi" class="form-control" />
+                <span asp-validation-for="NoCuoi" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PhatSinh" class="control-label">Phát sinh(auto)</label>
+                
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
